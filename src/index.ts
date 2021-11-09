@@ -16,19 +16,22 @@
 /* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 import "./style.css";
 
+var userPosition;
+
 function initMap(): void {
   const directionsService = new google.maps.DirectionsService();
   const directionsRenderer = new google.maps.DirectionsRenderer();
   const map = new google.maps.Map(
     document.getElementById("map") as HTMLElement,
     {
-      zoom: 7,
-      center: { lat: 41.85, lng: -87.65 },
+      zoom: 15,
+      center: { lat: 35.66168836403472, lng: -97.4740274059297 },
     }
   );
 
   directionsRenderer.setMap(map);
 
+  setUserPosition();
   const onChangeHandler = function () {
     calculateAndDisplayRoute(directionsService, directionsRenderer);
   };
@@ -43,19 +46,33 @@ function initMap(): void {
   );
 }
 
+function setUserPosition() {
+  navigator.geolocation.getCurrentPosition(position => {
+      console.log(position.coords.latitude);
+      console.log(position.coords.longitude);
+
+    userPosition = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+    };
+  })
+};
+
 function calculateAndDisplayRoute(
   directionsService: google.maps.DirectionsService,
   directionsRenderer: google.maps.DirectionsRenderer
 ) {
   directionsService
     .route({
-      origin: {
-        query: (document.getElementById("start") as HTMLInputElement).value,
-      },
-      destination: {
-        query: (document.getElementById("end") as HTMLInputElement).value,
-      },
-      travelMode: google.maps.TravelMode.DRIVING,
+      // origin: {
+      //   query: (document.getElementById("start") as HTMLInputElement).value,
+      // },
+      origin:  new google.maps.LatLng(userPosition.lat, userPosition.lng),
+      // destination: {
+      //   query: (document.getElementById("end") as HTMLInputElement).value,
+      // },
+      destination:  new google.maps.LatLng(35.654927022361704, -97.47191064451448),
+      travelMode: google.maps.TravelMode.WALKING,
     })
     .then((response) => {
       directionsRenderer.setDirections(response);
