@@ -37,7 +37,7 @@ function initMap(): void {
     calculateAndDisplayRoute(directionsService, directionsRenderer);
   };
 
-  (document.getElementById("start") as HTMLElement).addEventListener(
+  (document.getElementById("mode") as HTMLElement).addEventListener(
     "change",
     onChangeHandler
   );
