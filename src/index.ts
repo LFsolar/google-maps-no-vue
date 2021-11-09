@@ -32,6 +32,7 @@ function initMap(): void {
   directionsRenderer.setMap(map);
 
   setUserPosition();
+  
   const onChangeHandler = function () {
     calculateAndDisplayRoute(directionsService, directionsRenderer);
   };
