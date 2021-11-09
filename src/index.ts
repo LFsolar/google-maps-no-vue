@@ -41,10 +41,10 @@ function initMap(): void {
     "change",
     onChangeHandler
   );
-  (document.getElementById("end") as HTMLElement).addEventListener(
-    "change",
-    onChangeHandler
-  );
+  // (document.getElementById("end") as HTMLElement).addEventListener(
+  //   "change",
+  //   onChangeHandler
+  // );
 }
 
 function setUserPosition() {
