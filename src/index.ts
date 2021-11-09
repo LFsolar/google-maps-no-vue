@@ -32,18 +32,19 @@ function initMap(): void {
   directionsRenderer.setMap(map);
 
   setUserPosition();
+  
   const onChangeHandler = function () {
     calculateAndDisplayRoute(directionsService, directionsRenderer);
   };
 
-  (document.getElementById("start") as HTMLElement).addEventListener(
+  (document.getElementById("mode") as HTMLElement).addEventListener(
     "change",
     onChangeHandler
   );
-  (document.getElementById("end") as HTMLElement).addEventListener(
-    "change",
-    onChangeHandler
-  );
+  // (document.getElementById("end") as HTMLElement).addEventListener(
+  //   "change",
+  //   onChangeHandler
+  // );
 }
 
 function setUserPosition() {
