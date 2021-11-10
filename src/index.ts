@@ -13,8 +13,7 @@ var entranceCoords = [
   { lat: 35.65652, lng: -97.47381}
 ]
 // nearestEntrance starts as 1st entrance listed
-var nearestEntrance =
-  { lat: 35.656028, lng: -97.473868 };
+var nearestEntrance = entranceCoords[0];
 
 // initiates map
 function initMap(): void {
@@ -24,7 +23,7 @@ function initMap(): void {
     document.getElementById("map") as HTMLElement,
     {
       zoom: 15,
-      center: { lat: 35.66168836403472, lng: -97.4740274059297 },
+      center: entranceCoords[0],
     }
   );
 
