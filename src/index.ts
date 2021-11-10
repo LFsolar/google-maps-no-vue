@@ -7,6 +7,15 @@ import "./style.css";
 
 var userPosition;
 
+// hard coded example: array for Evans Hall -- soft code later
+var entranceCoords = [
+  { lat: 35.656028, lng: -97.473868 },
+  { lat: 35.65652, lng: -97.47381}
+]
+// nearestEntrance starts as 1st entrance listed
+var nearestEntrance =
+  { lat: 35.656028, lng: -97.473868 };
+
 // initiates map
 function initMap(): void {
   const directionsService = new google.maps.DirectionsService();
@@ -46,17 +55,53 @@ function setUserPosition() {
       lng: position.coords.longitude,
     };
   })
+  console.log('user position = ' + userPosition);
 };
+
+// distance formula
+function getDistance(x1, y1, x2, y2) {
+  var distance = Math.sqrt( Math.pow( (x2 - x1) ,2) + Math.pow( (y2 - y1) ,2));
+  console.log('distance = ' + distance);
+  return distance;
+}
+
+// finds the entrance closest to user
+function setNearestEntrance() {
+  var distance;
+  // minDistance starts as distance from user to 1st listed entrance
+  var minDistance = getDistance(
+    userPosition.lat, userPosition.lng,
+    entranceCoords[0].lat, entranceCoords[0].lng);
+
+  // see if other entrances are closer
+  for (var i = 1; i <entranceCoords.length - 1; i++) {
+    distance = getDistance(
+      userPosition.lat, userPosition.lng,
+      entranceCoords[i].lat, entranceCoords[i].lng);
+    if (distance < minDistance) {
+      // update min distance
+      minDistance = distance;
+
+      // update nearestEntrance
+      nearestEntrance = {
+        lat: entranceCoords[i].lat,
+        lng: entranceCoords[i].lng,
+      }
+    }
+  }
+  console.log('nearest entrance: ' + nearestEntrance);
+}
 
 // find route from "origin" to "destination"
 function calculateAndDisplayRoute(
   directionsService: google.maps.DirectionsService,
   directionsRenderer: google.maps.DirectionsRenderer
 ) {
+  setNearestEntrance();
   directionsService
     .route({
       origin:  new google.maps.LatLng(userPosition.lat, userPosition.lng),
-      destination:  new google.maps.LatLng(35.654927022361704, -97.47191064451448),
+      destination:  new google.maps.LatLng(nearestEntrance.lat, nearestEntrance.lng),
       travelMode: google.maps.TravelMode.WALKING,
     })
     .then((response) => {
