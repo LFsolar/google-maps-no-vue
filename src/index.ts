@@ -1,9 +1,13 @@
+// Google map with Directions
+// googlemapsAPI Key must be used - replace in index.html
+// Directions render when Mode drop down is selected
 
 /* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 import "./style.css";
 
 var userPosition;
 
+// initiates map
 function initMap(): void {
   const directionsService = new google.maps.DirectionsService();
   const directionsRenderer = new google.maps.DirectionsRenderer();
@@ -19,6 +23,7 @@ function initMap(): void {
 
   setUserPosition();
   
+  // when Mode drop down is selected, render directions
   const onChangeHandler = function () {
     calculateAndDisplayRoute(directionsService, directionsRenderer);
   };
@@ -30,6 +35,7 @@ function initMap(): void {
 
 }
 
+// find and set user's coordinates
 function setUserPosition() {
   navigator.geolocation.getCurrentPosition(position => {
       console.log(position.coords.latitude);
@@ -42,6 +48,7 @@ function setUserPosition() {
   })
 };
 
+// find route from "origin" to "destination"
 function calculateAndDisplayRoute(
   directionsService: google.maps.DirectionsService,
   directionsRenderer: google.maps.DirectionsRenderer
