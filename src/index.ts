@@ -55,11 +55,15 @@ function setUserPosition() {
       lng: position.coords.longitude,
     };
   })
-  console.log('user position = ' + userPosition);
 };
 
 // distance formula
 function getDistance(x1, y1, x2, y2) {
+  // use only decimal
+  x1 = x1 % 1.1; console.log('x1= ' + x1);
+  y1 = y1 % 1.1;
+  x2 = x2 % 1.1;
+  y2 = y2 % 1.1;
   var distance = Math.sqrt( Math.pow( (x2 - x1) ,2) + Math.pow( (y2 - y1) ,2));
   console.log('distance = ' + distance);
   return distance;
@@ -72,12 +76,14 @@ function setNearestEntrance() {
   var minDistance = getDistance(
     userPosition.lat, userPosition.lng,
     entranceCoords[0].lat, entranceCoords[0].lng);
+  console.log('initial minDistance: ' + minDistance);
 
   // see if other entrances are closer
-  for (var i = 1; i <entranceCoords.length - 1; i++) {
+  for (var i = 1; i < entranceCoords.length; i++) {
     distance = getDistance(
       userPosition.lat, userPosition.lng,
       entranceCoords[i].lat, entranceCoords[i].lng);
+    
     if (distance < minDistance) {
       // update min distance
       minDistance = distance;
